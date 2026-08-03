@@ -1,11 +1,16 @@
 from django.contrib import admin
-from .models import Students
+from .models import Student
 
 # Register your models here.
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ("st_id", "fname", "lname")
+    list_display = (
+        "st_id",
+        "full_name",
+        "prefix",
+    )
 
 
-admin.site.register(Students, StudentAdmin)
+admin.site.register(Student, StudentAdmin)
+

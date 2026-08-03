@@ -4,15 +4,25 @@ from django.urls import reverse
 # Create your models here.
 # st_id, fname, lname
 
+PREFIX_NAME = (
+    ("นาย", "นาย"),
+    ("นางสาว", "นางสาว"),
+    ("นาง", "นาง"),
+)
 
-class Students(models.Model):
 
+class Student(models.Model):
+    prefix = models.CharField(max_length=10, choices=PREFIX_NAME, default="นาย")
     st_id = models.CharField(max_length=12, unique=True)
     fname = models.CharField(max_length=100, blank=False)
     lname = models.CharField(max_length=100, blank=False)
 
+    def full_name(self):
+        return f"{self.prefix}{self.fname} {self.lname}"
+    full_name.short_description = "ชื่อ-นามสกุล"
+
     def __str__(self):
-        return self.fname + " " + self.lname
+        return self.full_name()
 
     def get_absolute_url(self):
         return reverse("Student_detail", kwargs={"pk": self.pk})
